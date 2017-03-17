@@ -21,7 +21,7 @@ angular.module('mean.system').controller('manage_customers_Ctrl',['SessionServic
 	  		$scope.dob = new Date();
 	    };
 	    $scope.today();
-	    $scope.dateOptions = {
+	    /*$scope.dateOptions = {
 	      	formatYear: 'yy',
 	      	maxDate: new Date(),
 	      	startingDay: 1
@@ -36,7 +36,7 @@ angular.module('mean.system').controller('manage_customers_Ctrl',['SessionServic
 
 	    $scope.popup = {
 	      	opened: false
-	    };
+	    };*/
 
 		 // Show the the list of customers.
 		$scope.get_all_customers = function(limit, pageNumber){
@@ -60,6 +60,45 @@ angular.module('mean.system').controller('manage_customers_Ctrl',['SessionServic
 			});
 		};
 
+
+   // Default address obj
+    $scope.addressList        = [{id : 0, flat : '',  street : '',  state : '',  pinCode : ''}];
+    $scope.addressListFinal   = [];
+   
+    // Dynamicly adding row in addressList
+    $scope.addNewAddess = function(index, data) {
+        if(!data || !data.flat|| !data.street || !data.state || !data.pinCode){
+            $scope.addressError = true;
+            $scope.addressErrorMessage = 'All fields are required';
+        }else{
+          $scope.addressError = false;
+          if($scope.addressList.length < 6){
+              $scope.addressList.push({'id': index, flat : data.flat, street : data.street, state : data.state, pinCode : data.pinCode});
+              $scope.addressListFinal.push({'id': index, flat : data.flat, street : data.street, state : data.state, pinCode : data.pinCode});
+          }else{
+            flash.info='You are not allowed to add more then 5 address.';
+          }
+        }
+    };
+
+    // Dynamicly remove row from addressList
+    $scope.removeAddess = function(index) {
+        if($scope.addressList.length >1){
+            $scope.addressList.splice(index,1);
+            $scope.addressListFinal.splice(index,1);
+        }
+    };
+
+    $scope.newCustomer = function() {
+        $scope.show_customers_form = true; 
+		$scope.show_customers=false;
+		$scope.showUpdate = false;
+		$scope.customers = '';
+		$scope.addressList        = [{id : 0, flat : '',  street : '',  state : '',  pinCode : ''}];
+    };
+
+
+
        // Add customers.
 		$scope.add_customers = function(customer){
 			if(customer){
@@ -67,7 +106,7 @@ angular.module('mean.system').controller('manage_customers_Ctrl',['SessionServic
 					'name'             : customer.name,
 					'mobile'       	   : customer.mobile,
 					'phone'    : customer.phone,
-					'address'	          : customer.address,
+					'address'	          : $scope.addressListFinal,
 					'dob'                : $scope.dob, 
 					'email'           :customer.email,
 					'limit'                : $scope.limit, 
@@ -81,6 +120,7 @@ angular.module('mean.system').controller('manage_customers_Ctrl',['SessionServic
 						$scope.show_customers     = true;
 						$scope.get_customers 	 = data.data;
 						$scope.total_customers 	 = data.count;
+						 $scope.addressList        = [{id : 0, flat : '',  street : '',  state : '',  pinCode : ''}];
 						$scope.indexIncrement = $scope.currentPage > 0 ? (($scope.currentPage-1)*$scope.limit): 0;
 						$scope.callSuccessError('success', 'Customer has been added successfully');
 					}else{
@@ -96,6 +136,85 @@ angular.module('mean.system').controller('manage_customers_Ctrl',['SessionServic
 				$scope.callSuccessError('error', '(*) required fields.');
 			}
 		}
+
+
+		  // Edit customers details.
+		$scope.edit_customer_details = function(data){
+			$scope.show_customers_form  = true;
+			$scope.showUpdate = true;
+			$scope.show_customers     = false;
+			$scope.customers = data;
+			$scope.addressList = []
+			//console.log(data.address)
+
+			// for(var i =0 ; i<data.address.length; i++){
+			// 	$scope.addressList.push(data.address[i]);
+			// }
+			 async.eachSeries(data.address, function(add, callback){
+				$scope.addressList.push(add);
+				$scope.addressListFinal.push(add);
+				callback();
+			}, function(err){
+				if(err){
+					$scope.callSuccessError('error', err);
+				}else{
+					$scope.addressList.push({id : 0, flat : '',  street : '',  state : '',  pinCode : ''});
+				}
+			});
+
+
+			//console.log($scope.addressList.push(data.address).push({id : 0, flat : '',  street : '',  state : '',  pinCode : ''}))
+			//$scope.add = data.address;
+
+
+			//console.log(data.address.lenght())
+			
+			//$scope.addressList = $scope.add;
+		//	$scope.addressListFinal = data.address;
+			//console.log($scope.addressList)
+			//$scope.addressList.push({id : 0, flat : '',  street : '',  state : '',  pinCode : ''})
+			//$scope.addressListFinal.push({id : 0, flat : '',  street : '',  state : '',  pinCode : ''})
+
+			//console.log($scope.addressList)
+			
+			//console.log($scope.addressList)
+			/*if(customer){
+				var customer_Obj = {
+					'name'             : customer.name,
+					'mobile'       	   : customer.mobile,
+					'phone'    : customer.phone,
+					'address'	          : $scope.addressListFinal,
+					'dob'                : $scope.dob, 
+					'email'           :customer.email,
+					'limit'                : $scope.limit, 
+					'pageNumber'           : $scope.pageNumber
+				}
+
+				console.log(customer_Obj)
+				$http.post('/api/lms/add_customers', customer_Obj).success(function(data){
+					if(data.result == 'Success' && data.data.length>0){
+						$scope.show_customers_form  = false;
+						$scope.show_customers     = true;
+						$scope.get_customers 	 = data.data;
+						$scope.total_customers 	 = data.count;
+						 $scope.addressList        = [{id : 0, flat : '',  street : '',  state : '',  pinCode : ''}];
+						$scope.indexIncrement = $scope.currentPage > 0 ? (($scope.currentPage-1)*$scope.limit): 0;
+						$scope.callSuccessError('success', 'Customer has been added successfully');
+					}else{
+						$scope.show_customers_form  = false;
+						$scope.show_customers = false;
+		      			$scope.callSuccessError('error', 'No customers found in database');
+					}
+				}).error(function (data, status){
+		          	var httpError = httpErrorService.httpErrorMessage(data, status);
+		         	$scope.callSuccessError('error', httpError);
+				});
+			}else{
+				$scope.callSuccessError('error', '(*) required fields.');
+			}*/
+		}
+
+
 
 
 		// Delete customer.

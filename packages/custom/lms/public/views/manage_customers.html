@@ -3,7 +3,7 @@
 	    <div class="row well custom-row-well">
 	      <b class="required"> <a class="text-primary" href="#!/superadminlogin">Dashboard</a> / Manage Customers</b>
 	      <b class="pull-right"><a href="" ng-show="!show_customers_form" title="Add a customer" tooltip-placement="bottom" tooltip-trigger="mouseenter"
-	      ng-click="show_customers_form = true; show_customers=false; customers = undefined;">Create Customer</a><a href="" ng-show="show_customers_form" title="Cancel" tooltip-placement="bottom" tooltip-trigger="mouseenter"
+	      ng-click="newCustomer();">Create Customer</a><a href="" ng-show="show_customers_form" title="Cancel" tooltip-placement="bottom" tooltip-trigger="mouseenter"
 	      ng-click="show_customers_form = false;show_customers=true;" style="color:red;">Cancel</a> ? </b>
 	    </div>
 	    <spinner name="userSpinner" on-loaded="get_all_customers(limit, currentPage)">
@@ -19,28 +19,109 @@
                 <div class="form-group">
                     <label class="required" for="name"><em>*</em>Name :</label>
                       <input type="text" name="name"  placeholder="Name" ng-model = "customers.name" class="form-control input-sm" id="name" required="">
+											 <div style="color:red" ng-show="customers_form.name.$dirty && customers_form.name.$invalid">
+												  <span ng-show="customers_form.name.$error.required">Name is required.</span>    
+											</div>  
                 </div>
 
 
-                <div class="form-group">
+              <!--  <div class="form-group">
                     <label class="required" for="name"><em>*</em>Address :</label>
-                      <input type="text" name="mobile" ng-model = "customers.address"  placeholder="Mobile Number" class="form-control input-sm" 
+                      <input type="text" name="address" ng-model = "customers.address"  placeholder="Mobile Number" class="form-control input-sm" 
 											required>
-                </div>
+											 <div style="color:red" ng-show="customers_form.address.$dirty && customers_form.address.$invalid">
+												  <span ng-show="customers_form.address.$error.required">Address is required.</span>    
+											</div>  
+                </div>-->
+								<div class="control-group">
+				    	<style type="text/css">
+					    	.bk_color{
+					    		background-color:#F2F2F2;
+					    	}
+								/*<<<<<<<<<<<<<<< Close article image, video, audio and reference >>>>>>>>>>>>>>>*/
+  .add_sample_addess, .remove_sample_addess > svg {
+    cursor: pointer; height: 22px; width: 19px;
+  }
+  .add_sample_addess > svg >  circle {
+      stroke: #56FCA9; fill: #66FFB2;
+  }
+  .remove_sample_addess > svg > circle {
+      stroke: #FA5050; fill: #FF6666;
+  }
+  .add_sample_addess, .remove_sample_addess > svg > path {
+      stroke: #000;
+  }
+  .add_sample_addess, .remove_sample_addess > svg:hover > circle {
+      stroke: #B5B3B3; fill: #C0C0C0;
+  }
+  .add_sample_addess, .remove_sample_addess > svg:hover > path {
+      stroke: #000;
+  }
+				    	</style>
+						<label class="control-label" for="sampleName">Address(multiple address) <span style="color:red;">*</span></label>
+						<span class="pull-right" style="color:#000;">Total Address : {{addressList.length - 1}}</span>
+			    		<div data-ng-repeat="address_details in addressList">
+			    			<div class="thumbnail col-md-12" ng-class="{bk_color : !$last}">
+				    			<span class="col-md-4">
+				    				<input type="text" title="Flat name" ng-disabled="!$last" class="form-control input-sm" ng-model="address_details.flat" name="flat" placeholder="Flat*">
+				    			</span>
+				    			<span class="col-md-4">
+							 		<input  type="text" class="form-control input-sm" ng-disabled="!$last" ng-model="address_details.street" name="street" placeholder="Street*">
+				    			</span>
+									<span class="col-md-4">
+							 		<input  type="text" class="form-control input-sm" ng-disabled="!$last" ng-model="address_details.state" name="state" placeholder="State*">
+				    			</span>
+				    			<span class="col-md-4">
+				    				<input type="text" ng-disabled="!$last" class="form-control input-sm" ng-model="address_details.pinCode" name="pinCode" placeholder="Pine Code(six digit)*"  
+										ng-pattern="/^[0-9]+$/" ng-minlength="6" ng-maxlength="6">
+				    			</span>
 
+				    			<span class="col-md-8">
+				    				<span ng-show="!$last" title="Remove addess" type="button" style="margin-top:5px;" class="remove_sample_addess pull-right" ng-click="removeAddess($index)">
+				    					<svg>
+											<circle cx="10" cy="10" r="8" stroke="black" stroke-width="1.2" fill="white" />
+											<path stroke="black" stroke-width="1.5" fill="none" d="M4,10,16,10" />
+										</svg>
+				    				</span>
+				    				<span ng-show="$last" title="Add new addess" style="margin-top:5px;" class="add_sample_addess pull-right" ng-click="addNewAddess($index , address_details)">
+				    					<svg>
+											<circle cx="10" cy="10" r="8" stroke="black" stroke-width="1.2" fill="white" />
+											<path stroke="black" stroke-width="1.5" fill="none" d="M4,10,16,10" />
+											<path stroke="black" stroke-width="1.5" fill="none" d="M10,4,10,16" />
+										</svg>
+				    				</span>
+				    			</span>
+				    			<div class="col-md-12">
+				    			<span ng-show="addressError && $last" style="color:red;font-size:13px;"><center><i ng-bind="addressErrorMessage"></i></center></span>
+				    			</div>
+							</div>
+		        		</div>
+			    	</div>
                 <div class="form-group">
                     <label class="required" for="name"><em>*</em>Mobile Number :</label>
                       <input type="text" name="mobile" ng-model = "customers.mobile"  placeholder="Mobile Number" 
-											class="form-control input-sm" ng-pattern="/^[0-9]+$/" ng-minlength="10" ng-maxlength="10" id="Mobile" required>
+											class="form-control input-sm"  ng-pattern="/^[0-9]+$/" ng-minlength="10" ng-maxlength="10" id="mobile" required>
+											 <div style="color:red" ng-show="customers_form.mobile.$dirty && customers_form.mobile.$invalid">
+												  <span ng-show="customers_form.mobile.$error.required">Mobile number is required.</span>    
+													<span ng-show="customers_form.mobile.$error.pattern">Mobile number is not valid.</span>
+													<span ng-show="customers_form.mobile.$error.minlength">Mobile number is too short.</span>
+													<span ng-show="customers_form.mobile.$error.maxlength">Mobile number is too long.</span>
+											</div>  
                 </div>
 
                 <div class="form-group">
                     <label class="required" for="name"><em>*</em>Phone Number :</label>
-                      <input type="text" name="mobile" ng-model = "customers.phone"  placeholder="Mobile Number" 
-											class="form-control input-sm" ng-pattern="/^[0-9]+$/" ng-minlength="11" ng-maxlength="11" id="Mobile" required>
+                      <input type="text" name="phone" ng-model = "customers.phone"  placeholder="Phone Number(11 digit)" 
+											class="form-control input-sm" ng-pattern="/^[0-9]+$/" ng-minlength="11" ng-maxlength="11" id="phone" required>
+                        <div style="color:red" ng-show="customers_form.phone.$dirty && customers_form.phone.$invalid">
+													  <span ng-show="customers_form.phone.$error.required">Phone number is required.</span>                          
+                            <span ng-show="customers_form.phone.$error.pattern">Phone number is not valid.</span>
+                            <span ng-show="customers_form.phone.$error.minlength">Phone number is too short.</span>
+                            <span ng-show="customers_form.phone.$error.maxlength">Phone number is too long.</span>
+                        </div>  
                 </div>
-
-								<div class="form-group">
+								 
+								<!--<div class="form-group">
                     <label class="required" for=""><em>*</em>Date of Birth(DOB) :</label>
                     <div class='input-group date'>
                         <input type="text" class="form-control  input-sm" uib-datepicker-popup="{{format}}" ng-model="dob" is-open="popup.opened" datepicker-options="dateOptions" ng-required="true" close-text="Close" alt-input-formats="altInputFormats" ng-change = "" />
@@ -48,15 +129,24 @@
                             <button type="button" class="btn btn-sm btn-default" ng-click="open()"><i class="glyphicon glyphicon-calendar"></i></button>
                        </span>
                    </div>
-                </div>
+                </div>-->
 
                 <div class="form-group">
                     <label class="required" for="name"><em>*</em>Email :</label>
-                      <input type="email" name="name"  placeholder="Email Address" ng-model = "customers.email" class="form-control input-sm" id="email" required>
+                      <input type="email" name="email"  placeholder="Email Address" ng-pattern="/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/" ng-model = "customers.email" class="form-control input-sm" id="email" required>
+											<div style="color:red" ng-show="customers_form.email.$dirty && customers_form.email.$invalid">
+												 <span ng-show="customers_form.email.$error.required">Email Address is required.</span> 
+												<span ng-show="customers_form.email.$error.pattern">Invalid email address.</span>
+											</div>
+											
+
+
                 </div>
 
-                <button type="submit" ng-disabled="customers_form.$invalid" class="btn btn-sm btn-raised btn-success submitBtn pull-right" id="btn-register" 
+                <button type="submit" ng-show="!showUpdate" ng-disabled="customers_form.$invalid" class="btn btn-sm btn-raised btn-success submitBtn pull-right" id="btn-register" 
 								ng-click="add_customers(customers)"><i class="glyphicon glyphicon-edit"></i> Submit</button>
+								<button type="submit" ng-show="showUpdate" ng-disabled="customers_form.$invalid" class="btn btn-sm btn-raised btn-success submitBtn pull-right" id="btn-register" 
+								ng-click="update_customer(customers)"><i class="glyphicon glyphicon-edit"></i> Update</button>
 	            <button type="button" href="" class="btn btn-sm btn-raised btn-danger resetBtn pull-right" ng-click="customers = undefined;" id="btn-register"><i class="glyphicon glyphicon-repeat"></i> Reset</button>
 	            <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 	            <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -86,12 +176,19 @@
 						<td ng-bind="data.name"></td>
 						<td ng-bind="data.mobile"></td>
 						<td ng-bind="data.phone"></td>
-						<td ng-bind="data.address"></td>
+						<td>
+							<span ng-bind="data.address[0].flat"></span>,&nbsp;
+							<span ng-bind="data.address[0].street"></span>,&nbsp;
+							<span ng-bind="data.address[0].state"></span>,&nbsp;
+							<span ng-bind="data.address[0].pinCode"></span>
+						</td>
 						<td ng-bind="data.dob | date : 'MMMM d, y'"></td>
 						<td ng-bind="data.email"></td>
 						<td>
 							<button type="button" class="btn btn-danger btn-xs"  ng-click="remove_customer(data)"  title="Delete customer" >
 								<i class="glyphicon glyphicon-trash"></i> Remove</button>
+								<button type="button" class="btn btn-primary btn-xs"  ng-click="edit_customer_details(data)"  title="Edit customer" >
+								<i class="glyphicon glyphicon-edit"></i> Edit</button>
 						</td>
 					</tr>
 			    </tbody>

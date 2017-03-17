@@ -27,7 +27,7 @@ var CustomersSchema = new Schema({
   },
 
   address: {
-    type: String,
+    type: Array,
     required: true
   },
 
