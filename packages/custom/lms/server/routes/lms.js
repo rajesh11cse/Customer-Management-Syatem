@@ -31,6 +31,12 @@
     app.route('/api/lms/remove_customer')
       .delete(manage_customers.remove_customer);
 
+  
+    // API for remove customers
+    app.route('/api/lms/update_customer')
+      .put(manage_customers.update_customer);
+
+
 
     app.get('/api/lms/example/render', function (req, res, next) {
       Lms.render('index', {

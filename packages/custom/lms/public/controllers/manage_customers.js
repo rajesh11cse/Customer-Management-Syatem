@@ -95,13 +95,14 @@ angular.module('mean.system').controller('manage_customers_Ctrl',['SessionServic
 		$scope.showUpdate = false;
 		$scope.customers = '';
 		$scope.addressList        = [{id : 0, flat : '',  street : '',  state : '',  pinCode : ''}];
+		$scope.addressListFinal   = [];
     };
 
 
 
        // Add customers.
 		$scope.add_customers = function(customer){
-			if(customer){
+			if(customer && $scope.addressListFinal.length>0){
 				var customer_Obj = {
 					'name'             : customer.name,
 					'mobile'       	   : customer.mobile,
@@ -138,12 +139,17 @@ angular.module('mean.system').controller('manage_customers_Ctrl',['SessionServic
 		}
 
 
+ 
+
+
+
 		  // Edit customers details.
 		$scope.edit_customer_details = function(data){
 			$scope.show_customers_form  = true;
 			$scope.showUpdate = true;
 			$scope.show_customers     = false;
 			$scope.customers = data;
+			$scope.customer_id = data._id;
 			$scope.addressList = []
 			//console.log(data.address)
 
@@ -161,25 +167,14 @@ angular.module('mean.system').controller('manage_customers_Ctrl',['SessionServic
 					$scope.addressList.push({id : 0, flat : '',  street : '',  state : '',  pinCode : ''});
 				}
 			});
+		}
 
 
-			//console.log($scope.addressList.push(data.address).push({id : 0, flat : '',  street : '',  state : '',  pinCode : ''}))
-			//$scope.add = data.address;
-
-
-			//console.log(data.address.lenght())
-			
-			//$scope.addressList = $scope.add;
-		//	$scope.addressListFinal = data.address;
-			//console.log($scope.addressList)
-			//$scope.addressList.push({id : 0, flat : '',  street : '',  state : '',  pinCode : ''})
-			//$scope.addressListFinal.push({id : 0, flat : '',  street : '',  state : '',  pinCode : ''})
-
-			//console.log($scope.addressList)
-			
-			//console.log($scope.addressList)
-			/*if(customer){
+// update customers detail.
+		$scope.update_customer = function(customer){
+			if(customer && $scope.addressListFinal.length>0){
 				var customer_Obj = {
+					'_id':$scope.customer_id,
 					'name'             : customer.name,
 					'mobile'       	   : customer.mobile,
 					'phone'    : customer.phone,
@@ -191,7 +186,7 @@ angular.module('mean.system').controller('manage_customers_Ctrl',['SessionServic
 				}
 
 				console.log(customer_Obj)
-				$http.post('/api/lms/add_customers', customer_Obj).success(function(data){
+				$http.put('/api/lms/update_customer', customer_Obj).success(function(data){
 					if(data.result == 'Success' && data.data.length>0){
 						$scope.show_customers_form  = false;
 						$scope.show_customers     = true;
@@ -199,7 +194,7 @@ angular.module('mean.system').controller('manage_customers_Ctrl',['SessionServic
 						$scope.total_customers 	 = data.count;
 						 $scope.addressList        = [{id : 0, flat : '',  street : '',  state : '',  pinCode : ''}];
 						$scope.indexIncrement = $scope.currentPage > 0 ? (($scope.currentPage-1)*$scope.limit): 0;
-						$scope.callSuccessError('success', 'Customer has been added successfully');
+						$scope.callSuccessError('success', 'Customer has been updated successfully');
 					}else{
 						$scope.show_customers_form  = false;
 						$scope.show_customers = false;
@@ -211,7 +206,7 @@ angular.module('mean.system').controller('manage_customers_Ctrl',['SessionServic
 				});
 			}else{
 				$scope.callSuccessError('error', '(*) required fields.');
-			}*/
+			}
 		}
 
 

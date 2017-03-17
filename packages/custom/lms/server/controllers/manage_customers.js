@@ -24,6 +24,26 @@ var mongoose = require('mongoose'),
           res.status(400).json({'result':'Error','data':err})
         }
         else{
+         /*  Customers.find({"_id" : {$exists:true}}, {"_id":1}).exec(function(err,kkkkk){
+            if(err){
+              res.status(400).json({'result':'Error','data':err})
+            }
+            else{
+              console.log(kkkkk)
+
+
+
+
+              for(var i = 0; i<15; i++){
+                  var item = kkkkk[Math.floor(Math.random()*kkkkk.length)];
+                  console.log(item);
+              }
+              res.status(200).json({'result':'Success','data':users, 'count':count})
+            }
+          });*/
+
+
+
           res.status(200).json({'result':'Success','data':users, 'count':count})
         }
       });
@@ -84,3 +104,21 @@ exports.remove_customer = function(req,res){
 
 
 
+exports.update_customer = function(req,res){ 
+  console.log(req.body)
+  var query = {$set:{name : req.body.name, mobile : req.body.mobile, 
+    phone : req.body.phone, address : req.body.address, 
+    dob : req.body.dob, email : req.body.email, }}
+
+  Customers.findByIdAndUpdate(req.body._id, query, function(err,users){
+    if(err){
+      console.log("dddd")
+      res.status(400).json({result:'Error', data:err})
+    }
+    else{
+      console.log("ddddss")
+      
+      get_customers(req,res);
+    }
+  });
+}
