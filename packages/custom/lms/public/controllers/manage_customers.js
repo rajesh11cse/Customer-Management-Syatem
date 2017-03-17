@@ -122,7 +122,8 @@ angular.module('mean.system').controller('manage_customers_Ctrl',['SessionServic
 						$scope.get_customers 	 = data.data;
 						$scope.total_customers 	 = data.count;
 						 $scope.addressList        = [{id : 0, flat : '',  street : '',  state : '',  pinCode : ''}];
-						$scope.indexIncrement = $scope.currentPage > 0 ? (($scope.currentPage-1)*$scope.limit): 0;
+						$scope.indexIncrement = 0;
+						$scope.currentPage          = 1;
 						$scope.callSuccessError('success', 'Customer has been added successfully');
 					}else{
 						$scope.show_customers_form  = false;
@@ -182,18 +183,18 @@ angular.module('mean.system').controller('manage_customers_Ctrl',['SessionServic
 					'dob'                : $scope.dob, 
 					'email'           :customer.email,
 					'limit'                : $scope.limit, 
-					'pageNumber'           : $scope.pageNumber
+					'pageNumber'           : 1
 				}
 
-				console.log(customer_Obj)
 				$http.put('/api/lms/update_customer', customer_Obj).success(function(data){
 					if(data.result == 'Success' && data.data.length>0){
 						$scope.show_customers_form  = false;
 						$scope.show_customers     = true;
 						$scope.get_customers 	 = data.data;
 						$scope.total_customers 	 = data.count;
-						 $scope.addressList        = [{id : 0, flat : '',  street : '',  state : '',  pinCode : ''}];
-						$scope.indexIncrement = $scope.currentPage > 0 ? (($scope.currentPage-1)*$scope.limit): 0;
+						$scope.indexIncrement = 0;
+						$scope.currentPage          = 1;
+						$scope.addressList        = [{id : 0, flat : '',  street : '',  state : '',  pinCode : ''}];
 						$scope.callSuccessError('success', 'Customer has been updated successfully');
 					}else{
 						$scope.show_customers_form  = false;
@@ -215,11 +216,11 @@ angular.module('mean.system').controller('manage_customers_Ctrl',['SessionServic
 		// Delete customer.
 		$scope.remove_customer = function(customer){
 			 if(window.confirm('Are you sure you want to delete the customer ?')){
-				$http.delete('/api/lms/remove_customer', {'id':customer._id, 'limit': $scope.limit, 'pageNumber': $scope.currentPage}).success(function(data){
+				$http.delete('/api/lms/remove_customer', {'id':customer._id, 'limit': $scope.limit, 'pageNumber': 1}).success(function(data){
 					if(data.result == 'Success' && data.data.length>0){
 						$scope.get_customers 	 = data.data;
 						$scope.total_customers 	 = data.count;
-						$scope.indexIncrement = $scope.currentPage > 0 ? (($scope.currentPage-1)*$scope.limit): 0;
+						$scope.indexIncrement = 0;
 						$scope.callSuccessError('success', 'Customer has been removed successfully');
 					}else{
 						$scope.show_customers_form  = false;

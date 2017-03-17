@@ -7,10 +7,10 @@ var mongoose = require('mongoose'),
   Schema = mongoose.Schema;
 
 /**
- * Customers Schema
+ * CustomerReport Schema
  */
 
-var CustomersSchema = new Schema({
+var CustomerReportSchema = new Schema({
   name: {
     type: String,
     required: true
@@ -26,20 +26,28 @@ var CustomersSchema = new Schema({
     required: true
   },
 
-  address: {
-    type: Array,
-    required: true
-  },
-
-  dob: {
-    type: Date,
-    required: true,
-  },
-
   email: {
     type: String,
     required: true,
   },
+
+  NoOfBills: {
+    type: Number,
+    required: true,
+  },
+
+  Amount: {
+    type: Number,
+    required: true,
+  },
+
+  
+  avgAmount: {
+    type: Number,
+    required: true,
+  },
+  
+  
 
   createdAt: {
     type: Date,
@@ -51,11 +59,10 @@ var CustomersSchema = new Schema({
 
 });
 
-var Customers = mongoose.model('Customers', CustomersSchema);
+var CustomerReport = mongoose.model('CustomerReport', CustomerReportSchema);
 
-CustomersSchema.pre('save', function (next) {
+CustomerReportSchema.pre('save', function (next) {
   var now = new Date();
-
   this.updateAt = now;
   if (!this.createdAt) {
     this.createdAt = now;

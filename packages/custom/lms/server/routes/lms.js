@@ -6,6 +6,7 @@
   module.exports = function (Lms, app, auth, database) {
 
     var manage_customers = require('../controllers/manage_customers');
+    var customerReport = require('../controllers/customerReport');
 
     app.get('/api/lms/example/anyone', function (req, res, next) {
       res.send('Anyone can access this');
@@ -31,10 +32,14 @@
     app.route('/api/lms/remove_customer')
       .delete(manage_customers.remove_customer);
 
-  
     // API for remove customers
     app.route('/api/lms/update_customer')
       .put(manage_customers.update_customer);
+
+
+      // API for generating bills
+    app.route('/api/lms/generateBill')
+      .post(customerReport.generateBill);
 
 
 

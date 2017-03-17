@@ -14,6 +14,9 @@
     }).state('manage customers',{
       url:'/customer/manage_customers',
       templateUrl:'lms/views/manage_customers.html',
+     }).state('customer report',{
+      url:'/customer/customer_report',
+      templateUrl:'lms/views/customer_report.html',
      })//.state('manage users',{
     //   url:'/customer/manage_users',
     //   templateUrl:'lms/views/manage_users.html',
