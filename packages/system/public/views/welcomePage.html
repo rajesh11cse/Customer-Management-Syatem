@@ -1,0 +1,95 @@
+<div data-ng-controller="welcome-page-controller">
+   <section class="container-fluid  custom-container-fluid">
+	    <div class="row well custom-row-well">
+		    <b class="">Dashboard
+		      	<span class="pull-right" style="font-family:helvetica;color:grey;">
+		      		<span style="font-size:12px; font-style:italic;"  ng-bind="today | date:'fullDate'"></span>&nbsp;
+		      		<span style="font-size:18px;" ng-bind="clock  | date:'mediumTime'"></span>
+		      	</span>
+		    </b>
+	    </div>
+	    <spinner name="welcomePageSpinner" on-loaded="welcome_To_Dashboard()">
+	      <div data-ng-include="'/articles/views/spinner.html'" ></div> 
+	    </spinner> 
+		<div  class="row well custom-row-well"> 
+			<style type="text/css">
+			.panel-primary:hover{
+				    outline: none;
+				    border-color: #4E4E52;
+				    box-shadow: 0 0 5px #4E4E52;
+				  }
+			</style>
+			<!-- <div class="col-md-6">
+				<div class="panel panel-primary"style="color:#8C8B8B; font-style:italic;">
+				    <div class="panel-heading">
+				    	<p class="panel-title">
+				    		<a href="#!/customer/manage_users">Manage Users</a> 
+						</p>
+				    </div>
+				    <div class="panel-body" style="background-color:#F7F8FA">
+				        <div class="col-md-2">
+							<a href="#!/customer/manage_users"><img ng-src="system/assets/img/customer.png" width="90" alt="image not found"></a>
+						</div>
+						<div class="col-md-10" style="">
+							Manage Users
+				    	</div>
+					</div>
+				</div>
+			</div> -->
+			<div class="col-md-6">
+				<div class="panel panel-primary"style="color:#8C8B8B; font-style:italic;">
+				    <div class="panel-heading">
+				    	<p class="panel-title">
+				    		<a href="#!/customer/manage_customers">Manage Customers</a> 
+						</p>
+				    </div>
+				    <div class="panel-body" style="background-color:#F7F8FA">
+				        <div class="col-md-2">
+							<a href="#!/customer/manage_customers"><img ng-src="system/assets/img/customer.png" width="90" alt="image not found"></a>
+						</div>
+						<div class="col-md-10" style="">
+							Manage Customers
+				        </div>
+				    </div>
+				</div>
+			</div>
+
+
+			<!-- <div class="col-md-6">
+				<div class="panel panel-primary"style="color:#8C8B8B; font-style:italic;">
+				    <div class="panel-heading">
+				    	<p class="panel-title">
+				    		<a href="#!/customer/issue_return_customers">Issue/Return Library Customers</a> 
+						</p>
+				    </div>
+				    <div class="panel-body" style="background-color:#F7F8FA">
+				        <div class="col-md-2">
+							<a href="#!/customer/issue_return_customers"><img ng-src="system/assets/img/customer.png" width="90" alt="image not found"></a>
+						</div>
+						<div class="col-md-10">
+							Issue/Return Library Customers
+					    </div>
+				    </div>
+				</div>
+			</div> -->
+
+			<!-- <div class="col-md-6" >
+				<div class="panel panel-primary"style="color:#8C8B8B; font-style:italic;">
+				    <div class="panel-heading">
+				    	<p class="panel-title">
+				    	<a href="#!/customer/library_transactions">Manage Library Transactions</a> 
+						</p>
+				    </div>
+				    <div class="panel-body" style="background-color:#F7F8FA;">
+				        <div class="col-md-2">
+							<a href="#!/customer/library_transactions"><img ng-src="system/assets/img/customer.png" width="90" alt="image not found"></a>
+						</div>
+						<div class="col-md-10">
+							Manage Library Transactions
+						</div>
+				    </div>  
+				</div>
+			</div> -->
+		</div>
+	</section>
+</div>
