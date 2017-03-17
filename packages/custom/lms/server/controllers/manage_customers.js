@@ -24,26 +24,6 @@ var mongoose = require('mongoose'),
           res.status(400).json({'result':'Error','data':err})
         }
         else{
-         /*  Customers.find({"_id" : {$exists:true}}, {"_id":1}).exec(function(err,kkkkk){
-            if(err){
-              res.status(400).json({'result':'Error','data':err})
-            }
-            else{
-              console.log(kkkkk)
-
-
-
-
-              for(var i = 0; i<15; i++){
-                  var item = kkkkk[Math.floor(Math.random()*kkkkk.length)];
-                  console.log(item);
-              }
-              res.status(200).json({'result':'Success','data':users, 'count':count})
-            }
-          });*/
-
-
-
           res.status(200).json({'result':'Success','data':users, 'count':count})
         }
       });

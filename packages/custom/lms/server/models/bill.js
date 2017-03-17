@@ -14,12 +14,12 @@ var BillSchema = new Schema({
 
     customerId: {
         type: Schema.Types.ObjectId,
-        ref: 'User'
+        ref: 'Customers'
     },
 
     billNumber: {
         type: Number,
-        required: true
+        required: false
     },
 
     billDate: {
@@ -75,7 +75,7 @@ BillSchema.pre('save', function (next) {
     }
     var doc = this;
     // For auto incremental bill number.
-    BillSchema.findOne({}).sort({ 'createdAt': -1 }).limit(1).exec(function (error, latestBIll) {
+    Bill.findOne({}).sort({ 'createdAt': -1 }).limit(1).exec(function (error, latestBIll) {
         if (error) return next(error);
         if (latestBIll != null
             && latestBIll != undefined

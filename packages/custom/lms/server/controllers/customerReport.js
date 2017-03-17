@@ -16,18 +16,17 @@ var mongoose = require('mongoose'),
 
 
 
-function billItems(size, callback){
-    for(var i = 0; i<size; i++){
-
+function billItems(size, callback) {
+    var itmeArray = []
+    for (var i = 0; i < size; i++) {
         var itemObj = {
-                name : '',
-                quantity : '',
-                Rate : '',
-                tax : '',
-            }
-
-        if(i == size){
-            callback();
+            name: faker.hacker.noun(),
+            quantity: Math.floor(Math.random() * 5) + 1,
+            Rate: (Math.random() * (1 - 0.1) + 0.1).toFixed(1),
+        }
+        itmeArray.push(itemObj);
+        if (i == size-1) {
+            callback(itmeArray);
         }
     }
 }
@@ -42,61 +41,49 @@ function billItems(size, callback){
         res.status(400).json({'result':'Error','data':err})
     }
     else{
-        //console.log(custIds);
-        console.log(faker.date.future());
-        console.log(faker.name.firstName());
-        var descount = Math.floor(Math.random() * 98) + 5  
-        console.log(descount);
-        var tax = Math.floor(Math.random() * 98) + 5 
-         console.log(tax);
-          var rate = Math.random() * (1 - 0.1) + 0.1;
-          console.log(rate.toFixed(1))
+       // console.log(faker.name.firstName());
          var itemSize = Math.floor(Math.random() * 10) + 1 
-        // for(var i = 0; i<15; i++){
-        //     var item = custIds[Math.floor(Math.random()*custIds.length)];
-        //     console.log(item._id);
-
-
-        //     var 
-        //     var bill = new Bill(req.body);
-           
-            // async.eachSeries(custIds, function(data, callback){
-
-              
-            //     billItems(itemSize, function(err, data){
-            //         if(err){
-            //             console.log("err")
-            //         }else{
-            //             console.log(data);
-
-            //               var billObj = {
-            //         billDate : '',
-            //         items : '',
-            //         discount : '',
-            //         tax : '',
-            //     }
-
-
-            //         }
-            //     })
-				//  bill.save(function(err, customer){
-                //     if(err){
-                //     // if error is occured, handle error
-                //     res.status(400).json({'result':'Error','data':err})
-                //     }else{
-                //         bill(req,res);
-                //     }
-                // })
-        //         console.log(data._id);
-		// 		callback();
-		// 	}, function(err){
-		// 		if(err){
-		// 			//$scope.callSuccessError('error', err);
-		// 		}else{
-        //             console.log("success");
-		// 		//	$scope.addressList.push({id : 0, flat : '',  street : '',  state : '',  pinCode : ''});
-		// 		}
-		// 	});
+         billItems(itemSize, function(data, err, next){
+            if(err){
+               //error occure.
+            }else{
+                var items = data;
+                var billEntrySize = new Array(2000);//create an empty array with length 45
+                async.eachSeries(billEntrySize, function(data, callback){
+                    var billObj = {
+                        customerId : custIds[Math.floor(Math.random()*custIds.length)]._id,
+                        billDate : faker.date.future(),
+                        items : items,
+                        discount : Math.floor(Math.random() * 98) + 5,
+                        tax : Math.floor(Math.random() * 8) + 5
+                    }
+                    console.log(billObj);
+                    var bill = new Bill(billObj);
+                    bill.save(function(err, customer){
+                        if(err){
+                            console.log("bill error generating..")
+                            callback();
+                        }else{
+                            console.log("bill generating..")
+                            callback();
+                        }
+                    });
+                }, function(err){
+                    if(err){
+                        console.log("error")
+                    }else{
+                         Bill.find({}).sort({'createdAt':-1}).exec(function(err,data){
+                            if(err){
+                                res.status(400).json({'result':'Error','data':err})
+                            }else{
+                                //console.log(data)
+                                res.status(200).json({'result':'Success','data':data})
+                            }
+                        });
+                    }
+                });
+              }
+           });
          }
     });
 }
