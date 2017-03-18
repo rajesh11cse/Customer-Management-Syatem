@@ -68,7 +68,7 @@ function createBillNow(custIds, items, callback) {
 
 // Create bill using customres IDs function.
 function createBillsByCustomerId(customerIDs, callback) {
-    var billEntrySize = new Array(150);//create an empty array with length 150
+    var billEntrySize = new Array(1000);//create an empty array with length 1000
     async.eachSeries(billEntrySize, function (data, callback) {
         // Before create bill make items
         billItems(function (data, err) {
@@ -134,8 +134,11 @@ function findBillsByCustomerId(customers, callback) {
     async.eachSeries(customers, function (customerData, cbCustomer) {
         Bill.find({ customerId: customerData._id }, function (err, billData) {
             if (err) {
-                console.log("error")
+                callback(true, 'bill not generated.');
             } else {
+                if(billData.length<1){
+                    callback(true, 'bill not generated.');
+                }
                 var totalAmount = 0;
                 async.eachSeries(billData, function (bill, cbBill) {
                     var rateQuantity = 0
@@ -200,6 +203,18 @@ exports.getCustomerReport = function (req, res) {
             res.status(400).json({ 'result': 'Error', 'data': err })
         } else {
             res.status(200).json({ 'result': 'Success', 'data': result })
+        }
+    });
+}
+
+
+// Get Bills function 
+exports.getBills = function (req, res) {
+    Bill.find(function (err, billData) {
+        if (err) {
+            res.status(400).json({ 'result': 'Error', 'data': err })
+        } else {
+            res.status(200).json({ 'result': 'Success', 'data': billData })
         }
     });
 }

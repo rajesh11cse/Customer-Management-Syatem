@@ -3,19 +3,24 @@
 	    <div class="row well custom-row-well">
 	      <b class="required"> <a class="text-primary" href="#!/superadminlogin">Dashboard</a> / Customer Report</b>
 	    </div>
-	    <spinner name="userSpinner" on-loaded="getCustomerReport(limit, currentPage)">
+	    <spinner name="userSpinner" on-loaded="getBills()">
 	      <div data-ng-include="'/articles/views/spinner.html'" ></div> 
 	    </spinner> 
 		<div  class="row well custom-row-well"> 
-            <button type="button" ng-disabled="true" class="btn btn-primary"  ng-click="runScript(data)"  
+            <div ng-show="!billsThere">
+                 To create thousands of bills, Run script here by clicking 'Run Script' button
+            <button type="button" class="btn btn-primary pull-right"  ng-click="runScript(data)"  
             title="Run Script"> <i class="glyphicon glyphicon-edit"></i> Run Script</button>
+            </div>
+
+            <div ng-show="billsThere && !showCustomerRecord">
+                <button type="button" class="btn btn-primary"  ng-click="getCustomerReport()"  
+            title="Run Script"> <i class="glyphicon glyphicon-edit"></i> Get Customer Report</button>
+            </div>
+            
 
             
-            <div ng-show="showCustomerReport">
-                <uib-pagination total-items="total_customers" ng-model="currentPage" items-per-page="limit" max-size="maxSize" class="pagination-sm" boundary-links="true" rotate="false" ng-click = "pageChanged()"></uib-pagination>
-                <p class = "pull-right" style = "padding-top:50px; padding-right:5px; color: #023A4D; font-size: 120%;">
-                Total Customers: {{total_customers}}
-                </p> 
+            <div ng-show="showCustomerRecord">
                 <table class="zceaTable" summary="Sample Table" style="width:100%;">
                     <thead style="border:2px solid #1E90FF;">
                         <tr>

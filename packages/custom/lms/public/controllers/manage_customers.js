@@ -21,7 +21,7 @@ angular.module('mean.system').controller('manage_customers_Ctrl',['SessionServic
 	  		$scope.dob = new Date();
 	    };
 	    $scope.today();
-	    /*$scope.dateOptions = {
+	    $scope.dateOptions = {
 	      	formatYear: 'yy',
 	      	maxDate: new Date(),
 	      	startingDay: 1
@@ -36,7 +36,7 @@ angular.module('mean.system').controller('manage_customers_Ctrl',['SessionServic
 
 	    $scope.popup = {
 	      	opened: false
-	    };*/
+	    };
 
 		 // Show the the list of customers.
 		$scope.get_all_customers = function(limit, pageNumber){
@@ -152,11 +152,8 @@ angular.module('mean.system').controller('manage_customers_Ctrl',['SessionServic
 			$scope.customers = data;
 			$scope.customer_id = data._id;
 			$scope.addressList = []
-			//console.log(data.address)
+			$scope.addressListFinal = []
 
-			// for(var i =0 ; i<data.address.length; i++){
-			// 	$scope.addressList.push(data.address[i]);
-			// }
 			 async.eachSeries(data.address, function(add, callback){
 				$scope.addressList.push(add);
 				$scope.addressListFinal.push(add);
@@ -195,6 +192,7 @@ angular.module('mean.system').controller('manage_customers_Ctrl',['SessionServic
 						$scope.indexIncrement = 0;
 						$scope.currentPage          = 1;
 						$scope.addressList        = [{id : 0, flat : '',  street : '',  state : '',  pinCode : ''}];
+						$scope.addressListFinal    = [];
 						$scope.callSuccessError('success', 'Customer has been updated successfully');
 					}else{
 						$scope.show_customers_form  = false;
@@ -233,6 +231,8 @@ angular.module('mean.system').controller('manage_customers_Ctrl',['SessionServic
 				});
 			}
 		}
+
+		$scope.categories = 	[{name:'Name'}, {name:'Mobile'},{name:'Phone'},{name:'DOB'}]
 
 		$scope.pageChanged = function() {
            $scope.get_all_customers($scope.limit, $scope.currentPage);

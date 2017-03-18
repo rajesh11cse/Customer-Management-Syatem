@@ -6,7 +6,7 @@ angular.module('mean.system').controller('customer_report_Ctrl',['SessionService
 	    $scope.currentPage          = 1;
 	    $scope.maxSize              = 5;
 	    $scope.showCustomerReport   = false;
-
+		$scope.billsThere = false;
 
 
 		// Fuction callSuccessError to show sucees or error message /
@@ -20,15 +20,13 @@ angular.module('mean.system').controller('customer_report_Ctrl',['SessionService
 		$scope.runScript = function(){
 			spinnerService.show('userSpinner');
 			$http.post('/api/lms/generateBill').success(function(data){
-				if(data.result == 'Success' && data.data.length>0){
-					$scope.showCustomerReport = true;
+				if(data.result == 'Success'){
+					$scope.billsThere = true;
+					$scope.callSuccessError('success', 'Thausand of bills genereted successfully');
                     spinnerService.hide('userSpinner');
-					//$scope.getCustomerReport  = data.data;
-					//$scope.totalCustomerReport = data.count;
-					//$scope.indexIncrement = $scope.currentPage > 0 ? (($scope.currentPage-1)*$scope.limit): 0;
 				}else{
-				//	$scope.showCustomerReport = false; 
-	      		//	$scope.callSuccessError('error', 'No record found in database');
+					$scope.billsThere = false;
+	      			$scope.callSuccessError('error', "Script error");
 				}
 				spinnerService.hide('userSpinner');
 			}).error(function (data, status){
@@ -40,14 +38,12 @@ angular.module('mean.system').controller('customer_report_Ctrl',['SessionService
 
 
 		// Get customer report.
-		$scope.getCustomerReport = function(limit, pageNumber){
+		$scope.getCustomerReport = function(){
 			spinnerService.show('userSpinner');
 			$http.post('/api/lms/getCustomerReport').success(function(data){
 				if(data.result == 'Success' && data.data.length>0){
-					$scope.showCustomerReport = true;
+					$scope.showCustomerRecord = true;
 					$scope.customerReport  = data.data;
-					$scope.total_customers = data.count;
-					$scope.indexIncrement = $scope.currentPage > 0 ? (($scope.currentPage-1)*$scope.limit): 0;
                     spinnerService.hide('userSpinner');
 				}else{
 				 spinnerService.hide('userSpinner');
@@ -62,6 +58,26 @@ angular.module('mean.system').controller('customer_report_Ctrl',['SessionService
 		};
 
 
+
+		// Get Bills.
+		$scope.getBills = function(limit, pageNumber){
+			spinnerService.show('userSpinner');
+			$http.get('/api/lms/getBills').success(function(data){
+				if(data.result == 'Success' && data.data.length>0){
+					 $scope.billsThere = true;
+                     spinnerService.hide('userSpinner');
+				}else{
+					$scope.billsThere = false;
+				    spinnerService.hide('userSpinner');
+	      		    $scope.callSuccessError('error', 'No bills found in database');
+				}
+				spinnerService.hide('userSpinner');
+			}).error(function (data, status){
+			  	spinnerService.hide('userSpinner');
+	          	var httpError = httpErrorService.httpErrorMessage(data, status);
+	         	$scope.callSuccessError('error', httpError);
+			});
+		};
 
 
 		$scope.pageChanged = function() {

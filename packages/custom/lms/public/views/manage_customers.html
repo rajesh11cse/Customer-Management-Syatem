@@ -23,30 +23,23 @@
 												  <span ng-show="customers_form.name.$error.required">Name is required.</span>    
 											</div>  
                 </div>
+
+								 <div class="form-group">
+											<label class="required" for="Experience"><em>*</em>Date of birth(DOB) :</label>
+											<div class='input-group date'>
+													<input type="text" class="form-control  input-sm" uib-datepicker-popup="{{format}}" 
+													ng-model="dob" is-open="popup.opened" datepicker-options="dateOptions" ng-required="true" close-text="Close" alt-input-formats="altInputFormats" ng-change = "" />
+													<span class="input-group-btn">
+															<button type="button" class="btn btn-sm btn-default" ng-click="open()"><i class="glyphicon glyphicon-calendar"></i></button>
+													</span>
+											</div>
+									</div>
+
 								<div class="control-group">
 				    	<style type="text/css">
 					    	.bk_color{
 					    		background-color:#F2F2F2;
 					    	}
-								/*<<<<<<<<<<<<<<< Close article image, video, audio and reference >>>>>>>>>>>>>>>*/
-  .add_sample_addess, .remove_sample_addess > svg {
-    cursor: pointer; height: 22px; width: 19px;
-  }
-  .add_sample_addess > svg >  circle {
-      stroke: #56FCA9; fill: #66FFB2;
-  }
-  .remove_sample_addess > svg > circle {
-      stroke: #FA5050; fill: #FF6666;
-  }
-  .add_sample_addess, .remove_sample_addess > svg > path {
-      stroke: #000;
-  }
-  .add_sample_addess, .remove_sample_addess > svg:hover > circle {
-      stroke: #B5B3B3; fill: #C0C0C0;
-  }
-  .add_sample_addess, .remove_sample_addess > svg:hover > path {
-      stroke: #000;
-  }
 				    	</style>
 						<label class="control-label" for="sampleName">Address(multiple address) <span style="color:red;">*</span></label>
 						<span class="pull-right" style="color:#000;">Total Address : {{addressList.length - 1}}</span>
@@ -133,12 +126,18 @@
 	            <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 			</form>
 		</div>
-		 <div class="form-group" style="font-family: Arial;">
-                <label class="">Search user by user name or phone number. </label>
-                 <input type="text" name="searchInput" class="form-control input-lg" type="text" ng-model = "query" ng-change="search_user(query);" placeholder = "Search" class="form-control input-lg">
-            </div>
-            <div style="color:red;" ng-show="user_found"><center>No record found for entry '<b><span ng-bind="query"></span></b>'.</center></div>
+				
 		<div ng-show="show_customers" class="row well custom-row-well"> 
+			<div class="form-group col-md-12">
+				<div class="pull-right">
+					<label class="">Search customer by </label>
+					<select ng-options="cat.name as cat.name for cat in categories " 
+							ng-model="cat.name" 
+							ng-change="update()">
+							<option value="" disabled="" selected="">Please select category</option>
+					</select>
+				</div>
+			</div>
 			<uib-pagination total-items="total_customers" ng-model="currentPage" items-per-page="limit" max-size="maxSize" class="pagination-sm" boundary-links="true" rotate="false" ng-click = "pageChanged()"></uib-pagination>
 			<p class = "pull-right" style = "padding-top:50px; padding-right:5px; color: #023A4D; font-size: 120%;">
 		       Total Customers: {{total_customers}}

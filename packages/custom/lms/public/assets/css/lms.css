@@ -8,7 +8,6 @@
   }
   
 
-
 /*<<<<<<<<<<<<<<< Buttons for submit, update, edit or cancel in show article and add article files >>>>>>>>>>>>>>>*/
   .submitBtn, .editBtn, .resetBtn{
     margin-left:5px;
@@ -125,3 +124,23 @@
   color:green; 
   font-weight:bold
 }
+
+/*<<<<<<<<<<<<<<< Close article image, video, audio and reference >>>>>>>>>>>>>>>*/
+  .add_sample_addess, .remove_sample_addess > svg {
+    cursor: pointer; height: 22px; width: 19px;
+  }
+  .add_sample_addess > svg >  circle {
+      stroke: #56FCA9; fill: #66FFB2;
+  }
+  .remove_sample_addess > svg > circle {
+      stroke: #FA5050; fill: #FF6666;
+  }
+  .add_sample_addess, .remove_sample_addess > svg > path {
+      stroke: #000;
+  }
+  .add_sample_addess, .remove_sample_addess > svg:hover > circle {
+      stroke: #B5B3B3; fill: #C0C0C0;
+  }
+  .add_sample_addess, .remove_sample_addess > svg:hover > path {
+      stroke: #000;
+  }
