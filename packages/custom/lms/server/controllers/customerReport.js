@@ -48,7 +48,7 @@ function billItems(size, callback) {
                //error occure.
             }else{
                 var items = data;
-                var billEntrySize = new Array(500);//create an empty array with length 45
+                var billEntrySize = new Array(300);//create an empty array with length 45
                 async.eachSeries(billEntrySize, function(data, callback){
                     var billObj = {
                         customerId : custIds[Math.floor(Math.random()*custIds.length)]._id,
@@ -57,7 +57,6 @@ function billItems(size, callback) {
                         discount : Math.floor(Math.random() * 98) + 5,
                         tax : Math.floor(Math.random() * 8) + 5
                     }
-                    console.log(billObj);
                     var bill = new Bill(billObj);
                     bill.save(function(err, customer){
                         if(err){
@@ -92,17 +91,47 @@ function billItems(size, callback) {
 
 
 exports.getCustomerReport = function(req, res){
-    Customers.find({"_id" : {$exists:true}}, {"_id":1}).exec(function(err,custIds){
+    Customers.find(function(err,customers){
         if(err){
             res.status(400).json({'result':'Error','data':err})
         }
         else{
-            async.eachSeries(custIds, function(data, callback){
-                Bill.find({customerId:data._id}, function(err,billData){
+            
+            async.eachSeries(customers, function(customerData, cbCustomer){
+                Bill.find({customerId:customerData._id}, function(err,billData){
                     if(err){
-                        callback();
+                        cbCustomer();
                     }else{
-                        console.log(billData._id);
+
+                       /* var obj = {
+                            name: customerData.name,
+                            mobile : customerData.mobile,
+                            phone : customerData.phone,
+                            NoOfBills : billData.length
+                            amount : '',
+                            avgAmount : ''
+                        }*/
+                        async.eachSeries(billData, function(bill, cbItem){
+                                async.eachSeries(bill.items, function(item, cb){
+                                        console.log(item)
+                                        cb();
+                                }, function(err){
+                                    if(err){
+                                        console.log("error")
+                                    }else{
+                                        console.log("00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000")
+                                        cbItem();
+                                    }
+                                });
+
+                        }, function(err){
+                            if(err){
+                                console.log("error")
+                            }else{
+                                 console.log("555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555")
+                                  cbCustomer();
+                            }
+                        });
                     }
                 });
             }, function(err){
@@ -115,21 +144,3 @@ exports.getCustomerReport = function(req, res){
         }
     });
 }
-
-
-/*async.eachSeries(custIds, function(data, callback){
-    Bill.find({customerId:data._id}, function(err,billData){
-        if(err){
-            callback();
-        }else{
-            console.log(billData._id);
-        }
-    });
-
-}, function(err){
-    if(err){
-        console.log("error")
-    }else{
-    }
-});
-*/

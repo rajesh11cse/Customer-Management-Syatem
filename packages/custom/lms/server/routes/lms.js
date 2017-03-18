@@ -41,7 +41,9 @@
     app.route('/api/lms/generateBill')
       .post(customerReport.generateBill);
 
-
+      // API for getting customer report
+    app.route('/api/lms/getCustomerReport')
+      .post(customerReport.getCustomerReport);
 
     app.get('/api/lms/example/render', function (req, res, next) {
       Lms.render('index', {
