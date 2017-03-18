@@ -12,15 +12,13 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>  
       </button>
-      <a class="navbar-brand" href="" mean-token="'site-title'"  style="color:#fff;font-size:19px;"><b>LMS</b></a>
+      <a class="navbar-brand" href="" mean-token="'site-title'"  style="color:#fff;font-size:19px;"><b>CMS</b></a>
     </div>
     
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav" ng-if="Authenticated == 'true'">
-        <li> <a href="#!/lms/manage_users">Manage Users</a>  </li>
-        <li> <a href="#!/lms/manage_books">Manage Library Books</a> </li>
-        <li> <a href="#!/lms/issue_return_books">Issue/Return Library Books</a>  </li>
-        <li> <a href="#!/lms/library_transactions">Manage Library Transactions</a>  </li>
+        <li> <a href="#!/customer/manage_customers">Manage Customers</a>  </li>
+        <li> <a href="#!/customer/customer_report">Customer Report</a> </li>
       </ul>
       <ul class="nav navbar-nav navbar-right" ng-if="Authenticated == 'true'">
         <li class="dropdown pull-right">
@@ -28,7 +26,6 @@
          Hi {{getUsername}}<b class="caret"></b>
          </a> 
           <ul class="dropdown-menu">
-            <li> <a href="#!/lms/manage_users">Manage Users</a>  </li>
             <li><a ng-click="logout()" href="/">Log Out</a> </li>
           </ul>
         </li>

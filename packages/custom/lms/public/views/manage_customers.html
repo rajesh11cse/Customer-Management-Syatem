@@ -23,16 +23,6 @@
 												  <span ng-show="customers_form.name.$error.required">Name is required.</span>    
 											</div>  
                 </div>
-
-
-              <!--  <div class="form-group">
-                    <label class="required" for="name"><em>*</em>Address :</label>
-                      <input type="text" name="address" ng-model = "customers.address"  placeholder="Mobile Number" class="form-control input-sm" 
-											required>
-											 <div style="color:red" ng-show="customers_form.address.$dirty && customers_form.address.$invalid">
-												  <span ng-show="customers_form.address.$error.required">Address is required.</span>    
-											</div>  
-                </div>-->
 								<div class="control-group">
 				    	<style type="text/css">
 					    	.bk_color{
@@ -121,15 +111,6 @@
                         </div>  
                 </div>
 								 
-								<!--<div class="form-group">
-                    <label class="required" for=""><em>*</em>Date of Birth(DOB) :</label>
-                    <div class='input-group date'>
-                        <input type="text" class="form-control  input-sm" uib-datepicker-popup="{{format}}" ng-model="dob" is-open="popup.opened" datepicker-options="dateOptions" ng-required="true" close-text="Close" alt-input-formats="altInputFormats" ng-change = "" />
-                        <span class="input-group-btn">
-                            <button type="button" class="btn btn-sm btn-default" ng-click="open()"><i class="glyphicon glyphicon-calendar"></i></button>
-                       </span>
-                   </div>
-                </div>-->
 
                 <div class="form-group">
                     <label class="required" for="name"><em>*</em>Email :</label>
@@ -152,6 +133,11 @@
 	            <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 			</form>
 		</div>
+		 <div class="form-group" style="font-family: Arial;">
+                <label class="">Search user by user name or phone number. </label>
+                 <input type="text" name="searchInput" class="form-control input-lg" type="text" ng-model = "query" ng-change="search_user(query);" placeholder = "Search" class="form-control input-lg">
+            </div>
+            <div style="color:red;" ng-show="user_found"><center>No record found for entry '<b><span ng-bind="query"></span></b>'.</center></div>
 		<div ng-show="show_customers" class="row well custom-row-well"> 
 			<uib-pagination total-items="total_customers" ng-model="currentPage" items-per-page="limit" max-size="maxSize" class="pagination-sm" boundary-links="true" rotate="false" ng-click = "pageChanged()"></uib-pagination>
 			<p class = "pull-right" style = "padding-top:50px; padding-right:5px; color: #023A4D; font-size: 120%;">

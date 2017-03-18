@@ -1,7 +1,7 @@
 'use strict';
 
 module.exports = {
-  db: 'mongodb://localhost/LMS',
+  db: 'mongodb://localhost/CMS',
   /**
    * Database options that will be passed directly to mongoose.connect
    * Below are some examples.
@@ -27,7 +27,7 @@ module.exports = {
     */
   },
   app: {
-    name: 'LMS - Admin'
+    name: 'CMS - Admin'
   },
   notification:{
     title:'New Article Published.',

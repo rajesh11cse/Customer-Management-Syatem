@@ -36,7 +36,7 @@ var CustomerReportSchema = new Schema({
     required: true,
   },
 
-  Amount: {
+  amount: {
     type: Number,
     required: true,
   },
@@ -48,7 +48,6 @@ var CustomerReportSchema = new Schema({
   },
   
   
-
   createdAt: {
     type: Date,
   },

@@ -89,27 +89,11 @@ angular.module('mean.system').config(['$meanStateProvider', '$urlRouterProvider'
         url:'/tablecolor',
         templateUrl:'system/views/tablecolor.html',
         resolve :{checkLoggedin: checkLoggedin}
-      })/*.state('userAdmin',{
-        url:'/userAdmin?from',
-        templateUrl:'system/views/userAdmin.html',
-        resolve :{checkLoggedin: checkLoggedin}
-      })*/.state('superadminloginpage',{
+      }).state('superadminloginpage',{
         url:'/superadminlogin',
         templateUrl:'system/views/welcomePage.html',
         resolve :{checkLoggedin: checkLoggedin}
-      })/*.state('manageadmin',{
-        url:'/manageadmin',
-        templateUrl:'system/views/manageadmin.html',
-        resolve :{checkLoggedin: checkLoggedin}
-      })*//*.state('createadmin',{
-        url:'/createadmin',
-        templateUrl:'system/views/createAdmin.html',
-        resolve :{checkLoggedin: checkLoggedin}
-      })*//*.state('userdetail',{
-        url:'/userdetail',
-        templateUrl:'system/views/userDetail.html',
-        resolve :{checkLoggedin: checkLoggedin}
-      })*/.state('forgot_password', {
+      }).state('forgot_password', {
         url: '/forgot_password',
         templateUrl: 'system/views/forgot_password.html'
         //resolve: {loggedin: checkLoggedOut }

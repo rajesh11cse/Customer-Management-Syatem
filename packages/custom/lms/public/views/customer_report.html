@@ -20,14 +20,13 @@
                     <thead style="border:2px solid #1E90FF;">
                         <tr>
                             <th scope="col">Sl. No.</th>
-                            <th scope="col">Name</th>
+                            <th scope="col">Customer Name</th>
                             <th scope="col">Mobile No.</th>
                             <th scope="col">Phone No.</th>
                             <th scope="col">Email id</th>
                             <th scope="col">No Of Bills</th>
                             <th scope="col">Amount</th>
                             <th scope="col">Avg Amount</th>
-                            <th scope="col">Action</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -38,9 +37,8 @@
                             <td ng-bind="data.phone"></td>
                             <td ng-bind="data.email"></td>
                             <td ng-bind="data.NoOfBills"></td>
-                            <td ng-bind="data.Amount"></td>
+                            <td ng-bind="data.amount"></td>
                             <td ng-bind="data.avgAmount"></td>
-                            </td>
                         </tr>
                     </tbody>
                 </table>
