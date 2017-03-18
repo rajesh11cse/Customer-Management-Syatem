@@ -9,11 +9,11 @@ angular.module('mean.system').controller('customer_report_Ctrl',['SessionService
 
 		// Show the the list of customer report.
 		$scope.runScript = function(){
-			//spinnerService.show('userSpinner');
+			spinnerService.show('userSpinner');
 			$http.post('/api/lms/generateBill').success(function(data){
 				if(data.result == 'Success' && data.data.length>0){
 					$scope.showCustomerReport = true;
-                    
+                    spinnerService.hide('userSpinner');
 					//$scope.getCustomerReport  = data.data;
 					//$scope.totalCustomerReport = data.count;
 					//$scope.indexIncrement = $scope.currentPage > 0 ? (($scope.currentPage-1)*$scope.limit): 0;

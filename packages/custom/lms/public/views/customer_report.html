@@ -7,12 +7,9 @@
 	      <div data-ng-include="'/articles/views/spinner.html'" ></div> 
 	    </spinner> 
 		<div  class="row well custom-row-well"> 
-            <div ng-show="!show_customers">
-                <button type="button" class="btn btn-primary"  ng-click="runScript(data)"  
-                title="Run Script"> <i class="glyphicon glyphicon-edit"></i> Run Script</button>
-            </div>
-
-            <div ng-show="show_customers">
+            <button type="button" ng-disabled="showCustomerReport" class="btn btn-primary"  ng-click="runScript(data)"  
+            title="Run Script"> <i class="glyphicon glyphicon-edit"></i> Run Script</button>
+            <div ng-show="showCustomerReport">
                 <uib-pagination total-items="total_customers" ng-model="currentPage" items-per-page="limit" max-size="maxSize" class="pagination-sm" boundary-links="true" rotate="false" ng-click = "pageChanged()"></uib-pagination>
                 <p class = "pull-right" style = "padding-top:50px; padding-right:5px; color: #023A4D; font-size: 120%;">
                 Total Customers: {{total_customers}}
@@ -22,33 +19,25 @@
                         <tr>
                             <th scope="col">Sl. No.</th>
                             <th scope="col">Name</th>
-                                    <th scope="col">Mobile No.</th>
-                                    <th scope="col">Phone No.</th>
-                                    <th scope="col">Address</th>
-                                    <th scope="col">DOB</th>
-                                    <th scope="col">Email id</th>
-                                    <th scope="col">Action</th>
+                            <th scope="col">Mobile No.</th>
+                            <th scope="col">Phone No.</th>
+                            <th scope="col">Email id</th>
+                            <th scope="col">No Of Bills</th>
+                            <th scope="col">Amount</th>
+                            <th scope="col">Avg Amount</th>
+                            <th scope="col">Action</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr scope="row" ng-repeat = "data in get_customers">
+                        <tr scope="row" ng-repeat = "data in customerReport">
                             <td ng-bind="$index+1+indexIncrement"></td>
                             <td ng-bind="data.name"></td>
                             <td ng-bind="data.mobile"></td>
                             <td ng-bind="data.phone"></td>
-                            <td>
-                                <span ng-bind="data.address[0].flat"></span>,&nbsp;
-                                <span ng-bind="data.address[0].street"></span>,&nbsp;
-                                <span ng-bind="data.address[0].state"></span>,&nbsp;
-                                <span ng-bind="data.address[0].pinCode"></span>
-                            </td>
-                            <td ng-bind="data.dob | date : 'MMMM d, y'"></td>
                             <td ng-bind="data.email"></td>
-                            <td>
-                                <button type="button" class="btn btn-danger btn-xs"  ng-click="remove_customer(data)"  title="Delete customer" >
-                                    <i class="glyphicon glyphicon-trash"></i> Remove</button>
-                                    <button type="button" class="btn btn-primary btn-xs"  ng-click="edit_customer_details(data)"  title="Edit customer" >
-                                    <i class="glyphicon glyphicon-edit"></i> Edit</button>
+                            <td ng-bind="data.NoOfBills"></td>
+                            <td ng-bind="data.Amount"></td>
+                            <td ng-bind="data.avgAmount"></td>
                             </td>
                         </tr>
                     </tbody>

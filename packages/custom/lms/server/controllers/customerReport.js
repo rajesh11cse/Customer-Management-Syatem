@@ -48,7 +48,7 @@ function billItems(size, callback) {
                //error occure.
             }else{
                 var items = data;
-                var billEntrySize = new Array(2000);//create an empty array with length 45
+                var billEntrySize = new Array(500);//create an empty array with length 45
                 async.eachSeries(billEntrySize, function(data, callback){
                     var billObj = {
                         customerId : custIds[Math.floor(Math.random()*custIds.length)]._id,
@@ -87,3 +87,49 @@ function billItems(size, callback) {
          }
     });
 }
+
+
+
+
+exports.getCustomerReport = function(req, res){
+    Customers.find({"_id" : {$exists:true}}, {"_id":1}).exec(function(err,custIds){
+        if(err){
+            res.status(400).json({'result':'Error','data':err})
+        }
+        else{
+            async.eachSeries(custIds, function(data, callback){
+                Bill.find({customerId:data._id}, function(err,billData){
+                    if(err){
+                        callback();
+                    }else{
+                        console.log(billData._id);
+                    }
+                });
+            }, function(err){
+                if(err){
+                    console.log("error")
+                }else{
+
+                }
+            });
+        }
+    });
+}
+
+
+/*async.eachSeries(custIds, function(data, callback){
+    Bill.find({customerId:data._id}, function(err,billData){
+        if(err){
+            callback();
+        }else{
+            console.log(billData._id);
+        }
+    });
+
+}, function(err){
+    if(err){
+        console.log("error")
+    }else{
+    }
+});
+*/
