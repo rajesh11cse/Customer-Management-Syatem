@@ -16,6 +16,11 @@ if you face any error while compling like grunt not found , Please install it by
 
    now run your application by grunt -f
 
+   On load this would ask you for username or email and password, So the authentication are below.
 
-I hope it will work properlly.
+   email : superadmin@cms.com
+   password" : superadmin
+
+
+I hope it would work.
 

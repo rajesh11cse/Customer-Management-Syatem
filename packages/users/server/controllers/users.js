@@ -22,7 +22,7 @@ User.count(function (err, count) {
 var createSuperadmin = function(){
     var user = new User({
                "phoneNumber" : "8888888888",
-               "email" : "superadmin@lms.com",
+               "email" : "superadmin@cms.com",
                "password" : "superadmin", 
                "title" : "Mr.", 
                "name" : "Super Admin",
